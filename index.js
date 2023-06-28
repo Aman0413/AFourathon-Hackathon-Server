@@ -5,6 +5,7 @@ dotenv.config();
 const studentRoutes = require("./routes/studentRoutes");
 const electiveSubjectRoutes = require("./routes/electiveSujectRoutes");
 const dbConnection = require("./config/database");
+const cors = require("cors");
 const PORT = process.env.PORT || 4001;
 
 app.use(express.json());
@@ -24,6 +25,13 @@ app.get("/", (req, res) => {
     console.log(err);
   }
 });
+
+//cors
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 
 //routes
 app.use("/student", studentRoutes);

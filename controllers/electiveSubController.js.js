@@ -1,6 +1,7 @@
 const { success, error } = require("../utils/responseWrapper");
 const ElectiveSubject = require("../models/electiveSubject");
 
+//get all elective subjects
 const getAllElectiveSubs = async (req, res) => {
   try {
     const electiveSubs = await ElectiveSubject.find();
@@ -10,6 +11,7 @@ const getAllElectiveSubs = async (req, res) => {
   }
 };
 
+//add elective subject
 const addElectiveSub = async (req, res) => {
   try {
     const { name, description, code } = req.body;
@@ -28,6 +30,7 @@ const addElectiveSub = async (req, res) => {
   } catch (err) {}
 };
 
+//update elective subject
 const updateElectiveSub = async (req, res) => {
   try {
     const id = req.params.id;
@@ -44,6 +47,7 @@ const updateElectiveSub = async (req, res) => {
   }
 };
 
+//delete elective subject
 const deleteElectiveSub = async (req, res) => {
   try {
     const id = req.params.id;
@@ -54,9 +58,22 @@ const deleteElectiveSub = async (req, res) => {
   }
 };
 
+//get single elective subject
+const getSingleElectiveSub = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const subject = await ElectiveSubject.findById(id);
+    if (!subject) return res.send(error(404, "Elective subject not found"));
+    return res.send(success(200, subject));
+  } catch (err) {
+    return res.send(error(500, err.message));
+  }
+};
+
 module.exports = {
   addElectiveSub,
   getAllElectiveSubs,
   updateElectiveSub,
   deleteElectiveSub,
+  getSingleElectiveSub,
 };

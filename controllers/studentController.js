@@ -94,10 +94,21 @@ const addElectiveSub = async (req, res) => {
   }
 };
 
+const getsingleStudent = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const student = await Student.findById(id);
+    return res.send(success(200, student));
+  } catch (err) {
+    return res.send(error(500, err.message));
+  }
+};
+
 module.exports = {
   addStudent,
   updateStudent,
   getAllStudents,
   deleteStudent,
   addElectiveSub,
+  getsingleStudent,
 };
