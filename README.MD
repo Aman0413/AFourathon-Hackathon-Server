@@ -26,7 +26,7 @@ To use the Elective Subject Selection Project, follow these steps:
 1. Clone the repository:
    `git clone https://github.com/Aman0413/AFourathon-Hackathon-Server`
 
-`git clone https://github.com/Aman0413/AFourathon-Hackathon-Server`
+   `git clone https://github.com/Aman0413/AFourathon-Hackathon-Client`
 
 2. Install the dependencies for both the backend and frontend:
 

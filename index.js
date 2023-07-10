@@ -27,9 +27,13 @@ app.get("/", (req, res) => {
 });
 
 //cors
+let clientUrl = "http://localhost:3000";
+if (process.env.NODE_ENV === "production") {
+  clientUrl = process.env.CLIENT_URL;
+}
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: clientUrl,
   })
 );
 
