@@ -2,7 +2,7 @@
 
 This repository contains the code for the Elective Subject Selection Project, which is developed as part of the AFourathon 3.0 Hackathon. The project consists of three problem statements related to student details, elective subjects, and subject selection. The project is built using the MERN (MongoDB, Express.js, React, Node.js) stack.
 
-### Live:
+### Live: https://afourathon-hackathon-client.onrender.com
 
 ## Problem Statements
 
