@@ -14,6 +14,12 @@ const electiveSubjectSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  students: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Student",
+    },
+  ],
 });
 
 module.exports = mongoose.model("ElectiveSubject", electiveSubjectSchema);

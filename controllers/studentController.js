@@ -1,6 +1,9 @@
 const { success, error } = require("../utils/responseWrapper");
 const Student = require("../models/student");
+const Subject = require("../models/electiveSubject");
+const electiveSubject = require("../models/electiveSubject");
 
+//generate a unique id for the student
 function generateUniqueId() {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   let id = "";
@@ -14,6 +17,7 @@ function generateUniqueId() {
   return id;
 }
 
+//get all students
 const getAllStudents = async (req, res) => {
   try {
     const students = await Student.find();
@@ -22,6 +26,8 @@ const getAllStudents = async (req, res) => {
     return res.send(error(500, err.message));
   }
 };
+
+//add a new student
 const addStudent = async (req, res) => {
   try {
     const { name, email, phoneNumber } = req.body;
@@ -48,17 +54,24 @@ const addStudent = async (req, res) => {
   }
 };
 
+//update a student
 const updateStudent = async (req, res) => {
   try {
     const { name, email, phoneNumber } = req.body;
     const id = req.params.id;
 
     //check if student exists
-    const student = await Student.findByIdAndUpdate(id, {
-      name,
-      email,
-      phoneNumber,
-    });
+    const student = await Student.findByIdAndUpdate(
+      id,
+      {
+        name,
+        email,
+        phoneNumber,
+      },
+      {
+        new: true,
+      }
+    );
 
     //if student does not exist
     if (!student) {
@@ -70,6 +83,7 @@ const updateStudent = async (req, res) => {
   }
 };
 
+//delete a student
 const deleteStudent = async (req, res) => {
   try {
     const id = req.params.id;
@@ -85,19 +99,63 @@ const deleteStudent = async (req, res) => {
   }
 };
 
+//add elective subject
 const addElectiveSub = async (req, res) => {
   try {
-    const id = req.params.id;
-    const { name, email, phoneNumber } = req.body;
+    const { firstSubjectId, secondSubjectId } = req.body;
+    const stuId = req.params.id;
+
+    const student = await Student.findById(stuId);
+    if (!student) {
+      return res.send(error(404, "Student not found"));
+    }
+
+    if (student.electiveSubject.length >= 2) {
+      return res.status(400).send("Cannot add more than 2 subjects");
+    }
+
+    if (firstSubjectId === secondSubjectId) {
+      return res.send(error(400, "Cannot add same subject twice"));
+    }
+    if (student.electiveSubject.includes(firstSubjectId || secondSubjectId)) {
+      return res.status(400).json("Cannot add same subject twice");
+    }
+
+    if (!firstSubjectId && !secondSubjectId) {
+      return res.send(error(400, "Please add atleast one subject"));
+    }
+    if (firstSubjectId) {
+      student.electiveSubject.push(firstSubjectId);
+      await electiveSubject.findByIdAndUpdate(firstSubjectId, {
+        $push: { students: stuId },
+      });
+    }
+    if (secondSubjectId) {
+      student.electiveSubject.push(secondSubjectId);
+      await electiveSubject.findByIdAndUpdate(secondSubjectId, {
+        $push: { students: stuId },
+      });
+    }
+    await student.save({ validateBeforeSave: false });
+
+    return res.send(success(200, "Elective subject added"));
   } catch (err) {
     return res.send(error(500, err.message));
   }
 };
 
+//get a single student
 const getsingleStudent = async (req, res) => {
   try {
     const id = req.params.id;
     const student = await Student.findById(id);
+    if (!student) {
+      return res.send(error(404, "Student not found"));
+    }
+    if (student.electiveSubject.length > 0) {
+      const subjectsOfStudent = await student.populate("electiveSubject");
+      return res.send(success(200, subjectsOfStudent));
+    }
     return res.send(success(200, student));
   } catch (err) {
     return res.send(error(500, err.message));
