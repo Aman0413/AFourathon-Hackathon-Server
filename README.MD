@@ -1,6 +1,6 @@
 # Elective Subject Selection Project
 
-This repository contains the code for the Elective Subject Selection Project, which is developed as part of the AFourathon 3.0 Hackathon. The project consists of three problem statements related to student details, elective subjects, and subject selection. The project is built using the MERN (MongoDB, Express.js, React, Node.js) stack.
+This repository contains the code for the Elective Subject Selection Project, which is developed as part of the AFourathon 3.0 Hackathon. The project consists of three problem statements related to student details, elective subjects, and subject selection. The project is built using the MERN (MongoDB, Express.js, React, Node.js) stack. Additionally, Tailwind CSS is used for styling the application.
 
 ### Live: https://afourathon-hackathon-client.onrender.com
 
@@ -26,7 +26,7 @@ To use the Elective Subject Selection Project, follow these steps:
 1. Clone the repository:
    `git clone https://github.com/Aman0413/AFourathon-Hackathon-Server`
 
-   `git clone https://github.com/Aman0413/AFourathon-Hackathon-Client`
+`git clone https://github.com/Aman0413/AFourathon-Hackathon-Client`
 
 2. Install the dependencies for both the backend and frontend:
 
@@ -47,3 +47,4 @@ npm install`
 - On the Student Page, you can select a student from the list and manage their elective subjects. You can add, update, or delete elective subjects for the selected student.
 - On the Elective Subject Page, you can select an elective subject from the list and manage the students who have chosen that subject. You can add, update, or delete students for the selected elective subject.
 - All changes made in the application will be synchronized with the backend and persisted in the database.
+- The application is styled using Tailwind CSS, providing a responsive and customizable user interface.
