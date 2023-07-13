@@ -61,23 +61,102 @@ const updateStudent = async (req, res) => {
     const id = req.params.id;
 
     //check if student exists
-    const student = await Student.findByIdAndUpdate(
-      id,
-      {
-        name,
-        email,
-        phoneNumber,
-      },
-      {
-        new: true,
-      }
-    );
+    const studentExist = await Student.findById(id);
 
-    //if student does not exist
-    if (!student) {
-      return res.send(error(404, "Student not found"));
+    if (!studentExist) {
+      return res.status(404).send("Student not found");
     }
-    return res.send(success(200, student));
+
+    //if all fields have values
+    if (name && email && phoneNumber) {
+      const student = await Student.findByIdAndUpdate(
+        id,
+        {
+          name,
+          email,
+          phoneNumber,
+        },
+        {
+          new: true,
+        }
+      );
+      return res.status(200).send("Student updated");
+    }
+    if (name && email) {
+      const student = await Student.findByIdAndUpdate(
+        id,
+        {
+          name,
+          email,
+        },
+        {
+          new: true,
+        }
+      );
+      return res.status(200).send("Student updated");
+    }
+    if (name && phoneNumber) {
+      const student = await Student.findByIdAndUpdate(
+        id,
+        {
+          name,
+          phoneNumber,
+        },
+        {
+          new: true,
+        }
+      );
+      return res.status(200).send("Student updated");
+    }
+    if (email && phoneNumber) {
+      const student = await Student.findByIdAndUpdate(
+        id,
+        {
+          email,
+          phoneNumber,
+        },
+        {
+          new: true,
+        }
+      );
+      return res.status(200).send("Student updated");
+    }
+    if (name) {
+      const student = await Student.findByIdAndUpdate(
+        id,
+        {
+          name,
+        },
+        {
+          new: true,
+        }
+      );
+      return res.status(200).send("Student updated");
+    }
+    if (email) {
+      const student = await Student.findByIdAndUpdate(
+        id,
+        {
+          email,
+        },
+        {
+          new: true,
+        }
+      );
+      return res.status(200).send("Student updated");
+    }
+    if (phoneNumber) {
+      const student = await Student.findByIdAndUpdate(
+        id,
+        {
+          phoneNumber,
+        },
+        {
+          new: true,
+        }
+      );
+      return res.status(200).send("Student updated");
+    }
   } catch (err) {
     return res.send(error(500, err.message));
   }

@@ -38,18 +38,70 @@ const updateElectiveSub = async (req, res) => {
     const id = req.params.id;
     const { name, description, code } = req.body;
 
-    const updatedElectiveSub = await ElectiveSubject.findByIdAndUpdate(
-      id,
-      {
+    //check if elective subject exists
+    const electiveSub = await ElectiveSubject.findById(id);
+    if (!electiveSub) {
+      return res.status(404).send("Elective subject not found");
+    }
+
+    //if all fields have values
+    if (name && description && code) {
+      const subject = await ElectiveSubject.findByIdAndUpdate(id, {
         name,
         description,
         code,
-      },
-      {
-        new: true,
-      }
-    );
-    return res.send(success(200, updatedElectiveSub));
+      });
+      return res.status(200).send("Subject Updated");
+    }
+    //if some fields have values
+    if (name && description) {
+      const subject = await ElectiveSubject.findByIdAndUpdate(id, {
+        name,
+        description,
+      });
+      return res.status(200).send("Subject Updated");
+    }
+    if (name && code) {
+      const subject = await ElectiveSubject.findByIdAndUpdate(id, {
+        name,
+        code,
+      });
+      return res.status(200).send("Subject Updated");
+    }
+    if (description && code) {
+      const subject = await ElectiveSubject.findByIdAndUpdate(id, {
+        description,
+        code,
+      });
+      return res.status(200).send("Subject Updated");
+    }
+    if (description && name) {
+      const subject = await ElectiveSubject.findByIdAndUpdate(id, {
+        description,
+        name,
+      });
+      return res.status(200).send("Subject Updated");
+    }
+
+    if (code) {
+      const subject = await ElectiveSubject.findByIdAndUpdate(id, {
+        code,
+      });
+      return res.status(200).send("Subject Updated");
+    }
+
+    if (name) {
+      const subject = ElectiveSubject.findByIdAndUpdate(id, {
+        name,
+      });
+      return res.status(200).send("Subject Updated");
+    }
+    if (description) {
+      const subject = await ElectiveSubject.findByIdAndUpdate(id, {
+        description,
+      });
+      return res.status(200).send("Subject Updated");
+    }
   } catch (err) {
     return res.send(error(500, err.message));
   }
